@@ -20,6 +20,8 @@ const Main = () => {
   //Create an array to store errors from the API // 2e methode
   const [errors2, setErrors2] = useState({}); 
 
+ 
+  
   
  
 
@@ -30,7 +32,7 @@ const Main = () => {
       .get("http://localhost:8000/api/products")
       .then((res) => setAllProducts(res.data.products))
       .catch((err) => console.log(err));
-  }, [allProducts]); // important!
+  }, []); // important!
 
 
 
@@ -40,14 +42,16 @@ const Main = () => {
       .delete("http://localhost:8000/api/products/" + productId)
       .then((res) => {
         console.log(res.data.result);
-        //setAllProducts(allProducts.filter(product=> product._id !== productId)); // pas necessaire
+        setAllProducts(allProducts.filter(product=> product._id !== productId)); //  necessaire! empeche ls appels courant au back-end
       })
       .catch((err) => console.log(err));
   };
 
+  
+
 
   // create one product
-  const createProduct = (prodObj) => {
+  const createProduct = (prodObj, setParams1,setParams2,setParams3) => {
     axios
       .post(
         "http://localhost:8000/api/products", prodObj 
@@ -57,11 +61,17 @@ const Main = () => {
         // on vide les erreurs si on entr dns ce cas
         setErrors([]);
         setErrors2({});
-       // setAllProducts([...allProducts, res.data.product]); // pas necessaire
+        setAllProducts([...allProducts, res.data.product]); //  necessaire avc cette methode
+
+        // clear form
+        setParams1(""); // lifting state du title
+        setParams2("");
+        setParams3("");
       })
       .catch(err=>{
         console.log("err//////", err)
-        const errorResponse = err.response.data.errors; // / Récupère les erreurs de err.response.data
+        const errorResponse = err.response.data.errors ; // / Récupère les erreurs de err.response.data
+       
         // Set Errors
         setErrors2(errorResponse);
         const errorArr = []; 

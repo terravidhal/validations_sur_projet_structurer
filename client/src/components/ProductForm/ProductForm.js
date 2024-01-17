@@ -7,7 +7,7 @@ import './ProductForm.css';
 const ProductForm = (props) => {
 
     
-    const { initialTitle, initialPrice,initialDescription, requestPostorPatch, errors, errors2 } = props;
+    const { initialTitle, initialPrice,initialDescription, requestPostorPatch, errors, errors2, clearForm } = props;
     const [title, setTitle] = useState(initialTitle); 
     const [price, setPrice] = useState(initialPrice);
     const [description, setDescription] = useState(initialDescription);
@@ -16,7 +16,8 @@ const ProductForm = (props) => {
     const onSubmitHandler =  async(e) => {
          
         e.preventDefault();
-        requestPostorPatch({ title, price, description});
+        requestPostorPatch({ title, price, description}, setTitle, setPrice, setDescription);
+
         console.log("errors",errors);
         console.log("errors2",errors2);
     }

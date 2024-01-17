@@ -37,7 +37,7 @@ const Update = (props) => {
   
   
     // update one specific product
-    const updateProduct = (prodObj) => {
+    const updateProduct = (prodObj, setParams1,setParams2,setParams3) => {
       axios
         .patch(
           "http://localhost:8000/api/products/" + id,
@@ -46,7 +46,15 @@ const Update = (props) => {
         )
         .then((res) => {
          // console.log(res.data.product);
-          //navigate("/home");
+          // on vide les erreurs si on entr dns ce cas
+           setErrors([]);
+           setErrors2({});
+         // clear form
+          setParams1(""); // lifting state du title
+          setParams2("");
+          setParams3("");
+          // redirect
+          navigate("/home");
         })
         .catch(err=>{
           console.log("err//////", err)
